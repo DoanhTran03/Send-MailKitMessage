@@ -13,7 +13,7 @@ $Message.To.Add($MailboxAddress::Parse("gofortest79@outlook.com"))
 $Message.Subject = "Test Subject"
 $Message.Body = $Body_Text
 
-#Create support object from SMTP
+#Create support object for SMTP object
 $Option = New-Object MailKit.Security.SecureSocketOptions
 $Account = Import-Clixml -Path "C:\Scripts\Creds\outlook.xml"
 
