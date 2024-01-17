@@ -8,6 +8,7 @@ function Send-MailKitMessage {
         [Parameter(Mandatory)][String] $To,
         [Parameter()]$CC,
         [Parameter()][String] $Subject = "",
+        [Parameter()] $Attachment,
         [Parameter()][String] $Body = "",
         [Parameter(Mandatory)][string] $SMTPServer,
         [Parameter(Mandatory)][Int16] $Port, 
@@ -16,6 +17,7 @@ function Send-MailKitMessage {
     
     $Message = New-Object MimeKit.MimeMessage
     $SMTP = New-Object MailKit.Net.Smtp.SmtpClient
+    $Builder = New-Object MimeKit.BodyBuilder
 
     #From and To
     $MailboxAddress = New-Object MimeKit.MailboxAddress("Ngoc Doanh", "N/A")
@@ -32,10 +34,16 @@ function Send-MailKitMessage {
     #Subject
     $Message.Subject = $Subject
 
+    #Attachment
+    if ($Attachment) {
+        foreach ($attach in $Attachment) {
+            $Builder.Attachments.Add($attach)
+        }
+    }
     #Body
-    $Body_Text = New-Object MimeKit.TextPart
-    $Body_Text.Text = $Body
-    $Message.Body = $Body_Text
+    $Builder.TextBody = $Body
+
+    $Message.Body = $Builder.ToMessageBody()
 
     #Create SMTP Object and add make network connection
     $Option = New-Object MailKit.Security.SecureSocketOptions
