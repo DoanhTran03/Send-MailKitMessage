@@ -9,6 +9,7 @@ function Send-MailKitMessage {
         [Parameter()]$CC,
         [Parameter()][String] $Subject = "",
         [Parameter()] $Attachment,
+        [Parameter()][Switch] $BodyAsHTML,
         [Parameter()][String] $Body = "",
         [Parameter(Mandatory)][string] $SMTPServer,
         [Parameter(Mandatory)][Int16] $Port, 
@@ -40,8 +41,16 @@ function Send-MailKitMessage {
             $Builder.Attachments.Add($attach)
         }
     }
+
     #Body
-    $Builder.TextBody = $Body
+    #BodyAsHtml
+    if ($BodyAsHTML) {
+        $Builder.HtmlBody = $Body
+    }
+    else {
+        $Builder.TextBody = $Body
+    }
+
 
     $Message.Body = $Builder.ToMessageBody()
 
