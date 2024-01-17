@@ -3,11 +3,12 @@ Add-Type -Path "D:\Package\MailKit\lib\netstandard2.0\MailKit.dll"
 Add-Type -Path "D:\Package\MimeKit\lib\netstandard2.0\MimeKit.dll"
 
 #Create support object for message based on Mailkit document : http://www.mimekit.net/docs/html/Introduction.htm
-$Message = New-Object MimeKit.MimeMessage
 $MailboxAddress = New-Object MimeKit.MailboxAddress("Ngoc Doanh", "N/A")
-$Body_Text = New-Object MimeKit.TextPart("Hello this is test content")
+$Body_Text = New-Object MimeKit.TextPart
+$Body_Text.Text = "Hello this is a test"
 
 #Create message object from Mailkit namespace
+$Message = New-Object MimeKit.MimeMessage
 $Message.From.Add($MailboxAddress::Parse("gofortest79@outlook.com"))
 $Message.To.Add($MailboxAddress::Parse("gofortest79@outlook.com"))
 $Message.Subject = "Test Subject"
